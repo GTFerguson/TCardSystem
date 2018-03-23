@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Notes } from '../lib/collections.js';
 import { Accounts } from 'meteor/accounts-base';
+import dragula from 'dragula';
+
 
 //Accounts config
 Accounts.ui.config({
@@ -41,10 +43,13 @@ Template.add.events({
 
 $(document).ready(function(){
     $('.modal').modal();
+
+    dragula([document.querySelector('#b1'), document.querySelector('#b2'),
+    document.querySelector('#b3'), document.querySelector('#b4')]);
   });
 
 Template.note.events({
   'click .delete-note':function(){
     Notes.remove(this._id);
   }
-})
+});

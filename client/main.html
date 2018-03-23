@@ -3,13 +3,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body>
-  <nav class="green">
+<body class ="grey lighten-2">
+  <nav class="grey darken-3">
     <div class="container">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">T Card System</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <!-- Can't add if statement, otherwise modal won't trigger-->
           {{#if currentUser}}
             <li class="nav-item">
                 <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
@@ -36,7 +35,34 @@
   </div>
   {{> add}}
   <div class="container">
-  </div>
+    <div id="boards">
+        <div class="board" id="board1">
+          <header>On-Call</header>
+          <div class="cards" id="b1">
+            {{> card}}
+            {{> card}}
+          </div>
+        </div>
+        <div class="board" id="board2">
+          <header>Deployed</header>
+          <div class="cards" id="b2">
+            {{> card}}
+          </div>
+        </div>
+        <div class="board" id="board3">
+          <header>Pending</header>
+          <div class="cards" id="b3">
+            {{> card}}
+          </div>
+        </div>
+        <div class="board" id="board4">
+          <header>Operational</header>
+          <div class="cards" id="b4">
+            {{> card}}
+          </div>
+        </div>
+      </div>
+    </div>
 </body>
 
 <template name="note">
@@ -61,8 +87,8 @@
 
 <template name="card">
   <div class="row">
-    <div class="col s1 m2">
-      <div class="card blue-grey darken-1">
+    <div class="col s1 m12">
+      <div class="card grey darken-4">
         <div class="card-content white-text">
           <span class="card-title">T Card</span>
           <p>This what a t-card could look like.</p>
