@@ -89,8 +89,8 @@
   margin: 0 !important;
   z-index: 9999 !important;
   opacity: 1;
-  -webkit-transform: rotate(5deg);
-  transform: rotate(5deg);
+  //-webkit-transform: rotate(5deg);
+  //transform: rotate(5deg);
 }
 
 .gu-hide {

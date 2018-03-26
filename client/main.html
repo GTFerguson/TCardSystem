@@ -3,16 +3,16 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body class ="grey lighten-2">
+<body class="grey lighten-2">
   <nav class="grey darken-3">
     <div class="container">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">T Card System</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           {{#if currentUser}}
-            <li class="nav-item">
-                <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
-            </li>
+          <li class="nav-item">
+            <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
+          </li>
           {{/if}}
           <li class="nav-item">
             {{> loginButtons}}
@@ -22,47 +22,44 @@
     </div>
   </nav>
   <div class="container">
-    <h1>"Cards"</h1>
-    {{#if currentUser}}
-      <ul class="collection">
-        {{#each notes}}
-          {{> note}}
-        {{/each}}
-      </ul>
+    <h1>Cards</h1> {{#if currentUser}}
+    <ul class="collection">
+
+    </ul>
     {{else}}
-      <p>Please login to see "cards".</p>
+    <p>Please login to see "cards".</p>
     {{/if}}
   </div>
   {{> add}}
   <div class="container">
     <div id="boards">
-        <div class="board" id="board1">
-          <header>On-Call</header>
-          <div class="cards" id="b1">
+      <div class="board" id="board1">
+        <header>On-Call</header>
+        <div class="cards" id="b1">
+          <!-- Cards can only be deleted within container they were created in-->
+          {{# each personnel}}
             {{> card}}
-            {{> card}}
-          </div>
+            {{/each}}
+          <!-- Adding of cards is concurrent, but moving of cards is not-->
         </div>
-        <div class="board" id="board2">
-          <header>Deployed</header>
-          <div class="cards" id="b2">
-            {{> card}}
-          </div>
+      </div>
+      <div class="board" id="board2">
+        <header>Deployed</header>
+        <div class="cards" id="b2">
         </div>
-        <div class="board" id="board3">
-          <header>Pending</header>
-          <div class="cards" id="b3">
-            {{> card}}
-          </div>
+      </div>
+      <div class="board" id="board3">
+        <header>Pending</header>
+        <div class="cards" id="b3">
         </div>
-        <div class="board" id="board4">
-          <header>Operational</header>
-          <div class="cards" id="b4">
-            {{> card}}
-          </div>
+      </div>
+      <div class="board" id="board4">
+        <header>Operational</header>
+        <div class="cards" id="b4">
         </div>
       </div>
     </div>
+  </div>
 </body>
 
 <template name="note">
@@ -77,6 +74,113 @@
 <template name="add">
   <div id="addModal" class="modal">
     <div class="modal-content">
+      <form id="personnel-form" class="add-form">
+        <div class="row">
+          <div class="input-field col s4">
+            <input id="agency" type="text" class="validate">
+            <label for="agency">Agency</label>
+          </div>
+          <div class="input-field col s4">
+            <input id="name" type="text" class="validate">
+            <label for="name">Name</label>
+          </div>
+          <div class="input-field col s4">
+            <input id="incidentRole" type="text" class="validate">
+            <label for="incidentRole">Incident Role</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="mobileNo" type="text" class="validate">
+            <label for="mobileNo">Mobile No.</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="callsign" type="text" class="validate">
+            <label for="callsign">Callsign</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="requestNo" type="text" class="validate">
+            <label for="requestNo">Request No.</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="checkIn" type="text" class="validate">
+            <label for="checkIn">Date/Time Check In</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="departurePoint" type="text" class="validate">
+            <label for="departurePoint">Departure Point</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="travelMethod" type="text" class="validate">
+            <label for="travelMethod">Method Of Travel</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="dateTime" type="text" class="validate">
+            <label for="dateTime">Date/Time</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="dateTime1" type="text" class="validate">
+            <label for="dateTime1">Date/Time</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="arrivalLocation" type="text" class="validate">
+            <label for="arrivalLocation">Arrival Location</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="eta" type="text" class="validate">
+            <label for="eta">ETA</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="unknown" type="text" class="validate">
+            <label for="unknown">Unknown</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="incidentLocation" type="text" class="validate">
+            <label for="incidentLocation">Incident Location</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="time" type="text" class="validate">
+            <label for="time">Time</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="status" type="text" class="validate">
+            <label for="status">Status</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="notes" type="text" class="validate">
+            <label for="notes">Notes</label>
+          </div>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<!--
+<template name="add">
+  <div id="addModal" class="modal">
+    <div class="modal-content">
       <h3>Add Card</h3>
       <form class="add-form">
         <input type="text" name="text" placeholder="Add note...">
@@ -84,6 +188,7 @@
     </div>
   </div>
 </template>
+-->
 
 <template name="card">
   <div class="row">
@@ -91,7 +196,10 @@
       <div class="card grey darken-4">
         <div class="card-content white-text">
           <span class="card-title">T Card</span>
-          <p>This what a t-card could look like.</p>
+          <p>{{name}}</p>
+          <a href="#" class="delete-card secondary-content">
+            <i class="material-icons">close</i>
+          </a>
         </div>
       </div>
     </div>
