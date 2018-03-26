@@ -1,0 +1,23 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.0.1] - 2018-03-26
+### Added
+- Forms for t cards.
+- MongoDB integration with forms (messy and temporary).
+- Cards can be added to "On Call" board (and nothing else as of now).
+- Cards can be deleted.
+- Names are added to cards.
+- Cards are draggable between each board.
+- Materialize should now be included when cloning the repo.
+
+### Changed
+
+### Bugs
+- Cards cannot be deleted on other boards.
+- Form is incredibly laggy (probably due to the amount of input fields on one form).
