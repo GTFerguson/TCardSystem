@@ -109,3 +109,19 @@
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+
+.cardColour{
+     height:10px;
+     width:100%;
+     background-color: blue;
+}
+
+.cardText{
+    text-align:left;
+}
+
+
+.help{
+     font-size:18px;
+     font-weight:bold;
+}

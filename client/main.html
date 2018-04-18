@@ -12,6 +12,7 @@
           {{#if currentUser}}
           <li class="nav-item">
             <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
+            <a class="waves-effect waves-light btn modal-trigger" id="myBtn" onclick="myFunction()">HELP</a>
           </li>
           {{/if}}
           <li class="nav-item">
@@ -61,6 +62,60 @@
       </div>
     </div>
   </div>
+  <script>
+    function show(obj)
+  {
+  var x = document.getElementById(obj.id).getElementsByClassName(obj.id)[0];
+  if (x.style.display === "none") {
+          x.style.display = "block";
+      } else {
+          x.style.display = "none";
+      }
+  }
+</script>
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h1 class="help">Adding a card</h1>
+    <p class="helpText">To Add a card, click the “Add Card” button at the top of the page. This will cause a pop-up to appear,
+    prompting the user to add in required information. Once the fields have been filled in,
+    simply click “Submit” at the bottom of the page and the new card will appear on the board.</p>
+
+    <h2 class="help">Deleting a card</h2>
+    <p  class="helpText"> To delete a card, click the “x” located on the bottom right of each card. </p>
+    <h3 class="help">Dragging a card</h3>
+    <p  lass="helpText"> To drag a card, hover the mouse over the desired card you want to move. Click on the card and simply drag it to the desired column. </p>
+    <h4 class="help">Updating Cards</h4>
+    <p  class="helpText">To Update a card, click the pen symbol located on the top right of the card.</p>
+    <h5 class="help">Program Features</h5>
+    <p  class="helpText">Text about Features.</p>
+    <h6 class="help">Program Dependancies</h6>
+    <p  class="helpText">Text about Dependancies.</p>
+
+  </div>
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+function myFunction(){
+ modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+</script>
+
+</div>
 </body>
 
 <template name="note">
@@ -194,17 +249,38 @@
 </template>
 
 <template name="card">
-  <div class="row" id={{id}}>
+  <div class="row" id={{id}} onclick="show(this);test(this)" >
     <div class="col s1 m12">
       <div class="card grey darken-4">
         <div class="card-content white-text">
-          <span class="card-title">T Card</span>
-          <p>{{name}}</p>
+          <span class="card-title">{{name}}</span>
+         <div class="{{id}}" style="display : none;" >
+          <p class="cardText">Name: {{name}}</p>
+          <p class="cardText">Agency: {{agency}}</p>
+          <p class="cardText">Callsign: {{callsign}}</p>
+          <p class="cardText">Status: {{status}}</p>
+          <p class="cardText">Notes: {{notes}}</p>
+          <p class="cardText">TravelMethod: {{travel_method}}</p>
+          <p class="cardText">Time: {{time}}</p>
+          <p class="cardText">Unknown: {{unknown}}</p>
+          <p class="cardText">IncidentRole: {{incident_role}}</p>
+          <p class="cardText">IncidentLocation: {{incident_location}}</p>
+          <p class="cardText">ETA: {{eta}}</p>
+          <p class="cardText">DateTime: {{date_time}}</p>
+          <p class="cardText">DateTime1: {{date_time1}}</p>
+          <p class="cardText">ArrivalLocation: {{arrival_location}}</p>
+          <p class="cardText">TravelMethod: {{travel_method}}</p>
+          <p class="cardText">DeparturePoint: {{departure_point}}</p>
+          <p class="cardText">RequestNo: {{request_no}}</p>
+          <p class="cardText">MobileNo: {{mobile_no}}</p>
+          </div>
           <a href="#" class="delete-card secondary-content">
-            <i class="material-icons">close</i>
+          <i class="material-icons">close</i>
           </a>
         </div>
+        <div class ="cardColour">
       </div>
     </div>
+  </div>
   </div>
 </template>

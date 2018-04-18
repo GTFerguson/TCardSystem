@@ -113,12 +113,19 @@ $(document).ready(function(){
     $('select').material_select();
   });
 
-Template.card.events({
-  'click .delete-card': function(){
-    OnCall.remove(this._id);
-    Deployed.remove(this._id);
-  }
-});
+  Template.card.events({
+    'click .delete-card': function(){
+  	  if(confirm("Do you want to delete this card?"))
+  	  {
+
+      OnCall.remove(this._id);
+      Deployed.remove(this._id);
+  	  }
+  	  else{
+
+  	  }
+    }
+  });
 
 Template.card.helpers({
   id(){
