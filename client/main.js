@@ -96,7 +96,7 @@ Template.add.events({
     	const type = target.typeT.value;
     	const name = target.nameT.value;
     	const mobile_no = target.mobileNoT.value;
-    	const callsign = target.callsignT;
+    	const callsign = target.callsignT.value;
     	const communications = target.communicationsT.options[communicationsT.selectedIndex].text;
     	const request_no = target.requestNoT.value;
     	const checkIn = target.checkInT.value;
@@ -137,6 +137,7 @@ Template.add.events({
 	    	travel_method,
 	    	destination,
 	    	eta,
+	    	notes,
 	    	createdAt: new Date()
 	      });
     }
@@ -186,7 +187,7 @@ Template.add.events({
 	      });
     }
     else if(formData == 3){
-      const target = event.target;
+      	const target = event.target;
   		const cardType = 'boat';
   		const agency = target.agencyB.value;
   		const type = target.typeB.value
