@@ -32,90 +32,86 @@
   </div>
   {{> add}}
   <div class="container">
-  	<div id="result"></div>
+    <div id="result"></div>
     <div id="boards">
       <div class="board" id="board1">
         <header>On-Call</header>
         <div class="cards" id="b1">
-            {{# each onCall}}
-              {{> card}}
-            {{/each}}
+          {{# each onCall}} {{> card}} {{/each}}
         </div>
       </div>
       <div class="board" id="board2">
         <header>Deployed</header>
         <div class="cards" id="b2">
-          {{# each deployed}}
-            {{> card}}
-          {{/each}}
+          {{# each deployed}} {{> card}} {{/each}}
         </div>
       </div>
       <div class="board" id="board3">
         <header>Pending</header>
         <div class="cards" id="b3">
+          {{# each pending}} {{> card}} {{/each}}
         </div>
       </div>
       <div class="board" id="board4">
         <header>Operational</header>
         <div class="cards" id="b4">
+          {{# each operational}} {{> card}} {{/each}}
         </div>
       </div>
     </div>
   </div>
   <script>
-    function show(obj)
-  {
-  var x = document.getElementById(obj.id).getElementsByClassName(obj.id)[0];
-  if (x.style.display === "none") {
-          x.style.display = "block";
+    function show(obj) {
+      var x = document.getElementById(obj.id).getElementsByClassName(obj.id)[0];
+      if (x.style.display === "none") {
+        x.style.display = "block";
       } else {
-          x.style.display = "none";
+        x.style.display = "none";
       }
-  }
-</script>
-<div id="myModal" class="modal">
+    }
+  </script>
+  <div id="myModal" class="modal">
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h1 class="help">Adding a card</h1>
-    <p class="helpText">To Add a card, click the “Add Card” button at the top of the page. This will cause a pop-up to appear,
-    prompting the user to add in required information. Once the fields have been filled in,
-    simply click “Submit” at the bottom of the page and the new card will appear on the board.</p>
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h1 class="help">Adding a card</h1>
+      <p class="helpText">To Add a card, click the “Add Card” button at the top of the page. This will cause a pop-up to appear, prompting the user to add in required information. Once the fields have been filled in, simply click “Submit” at the bottom of the page and the
+        new card will appear on the board.</p>
 
-    <h2 class="help">Deleting a card</h2>
-    <p  class="helpText"> To delete a card, click the “x” located on the bottom right of each card. </p>
-    <h3 class="help">Dragging a card</h3>
-    <p  lass="helpText"> To drag a card, hover the mouse over the desired card you want to move. Click on the card and simply drag it to the desired column. </p>
-    <h4 class="help">Updating Cards</h4>
-    <p  class="helpText">To Update a card, click the pen symbol located on the top right of the card.</p>
-    <h5 class="help">Program Features</h5>
-    <p  class="helpText">Text about Features.</p>
-    <h6 class="help">Program Dependancies</h6>
-    <p  class="helpText">Text about Dependancies.</p>
+      <h2 class="help">Deleting a card</h2>
+      <p class="helpText"> To delete a card, click the “x” located on the bottom right of each card. </p>
+      <h3 class="help">Dragging a card</h3>
+      <p lass="helpText"> To drag a card, hover the mouse over the desired card you want to move. Click on the card and simply drag it to the desired column. </p>
+      <h4 class="help">Updating Cards</h4>
+      <p class="helpText">To Update a card, click the pen symbol located on the top right of the card.</p>
+      <h5 class="help">Program Features</h5>
+      <p class="helpText">Text about Features.</p>
+      <h6 class="help">Program Dependancies</h6>
+      <p class="helpText">Text about Dependancies.</p>
+
+    </div>
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks the button, open the modal
+      function myFunction() {
+        modal.style.display = "block";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+    </script>
 
   </div>
-<script>
-// Get the modal
-var modal = document.getElementById('myModal');
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal
-function myFunction(){
- modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-</script>
-
-</div>
 </body>
 
 <template name="note">
@@ -133,16 +129,23 @@ span.onclick = function() {
       <form id="personnel-form" class="add-form">
         <div class="row">
           <div class="input-field col s4">
-            <select>
-              <option value="" disabled selected>Choose your card</option>
-              <option value="1">Team</option>
+            <select id="cardType">
+              <option value="1" selected="selected">Team</option>
               <option value="2">Personnel</option>
               <option value="3">Boat</option>
             </select>
             <label>T-Card Type</label>
           </div>
         </div>
+        {{#if isTeam}}
+          {{> team}}
+        {{/if}}
+        {{#if isPersonnel}}
           {{> personnel}}
+        {{/if}}
+          {{#if isBoat}}
+          {{> boat}}
+        {{/if}}
     </form>
     </div>
   </div>
@@ -151,91 +154,352 @@ span.onclick = function() {
 <template name="personnel">
     <div class="row">
       <div class="input-field col s4">
-        <input id="agency" type="text" class="validate">
-        <label for="agency">Agency</label>
+        <input id="agencyP" type="text" class="validate">
+        <label for="agencyP">Agency</label>
       </div>
       <div class="input-field col s4">
-        <input id="name" type="text" class="validate">
-        <label for="name">Name</label>
+        <input id="nameP" type="text" class="validate">
+        <label for="nameP">Name</label>
       </div>
       <div class="input-field col s4">
-        <input id="incidentRole" type="text" class="validate">
-        <label for="incidentRole">Incident Role</label>
+        <input id="incidentRoleP" type="text" class="validate">
+        <label for="incidentRoleP">Incident Role</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s6">
-        <input id="mobileNo" type="text" class="validate">
-        <label for="mobileNo">Mobile No.</label>
+        <input id="mobileNoP" type="text" class="validate">
+        <label for="mobileNoP">Mobile No.</label>
       </div>
       <div class="input-field col s6">
-        <input id="callsign" type="text" class="validate">
-        <label for="callsign">Callsign</label>
+        <input id="callsignP" type="text" class="validate">
+        <label for="callsignP">Callsign</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s6">
-        <input id="requestNo" type="text" class="validate">
-        <label for="requestNo">Request No.</label>
+        <input id="requestNoP" type="text" class="validate">
+        <label for="requestNoP">Request No.</label>
       </div>
       <div class="input-field col s6">
-        <input id="checkIn" type="text" class="validate">
-        <label for="checkIn">Date/Time Check In</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="departurePoint" type="text" class="validate">
-        <label for="departurePoint">Departure Point</label>
+        <input id="checkInP" type="text" class="validate">
+        <label for="checkInP">Date/Time Check In</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input id="travelMethod" type="text" class="validate">
-        <label for="travelMethod">Method Of Travel</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s6">
-        <input id="dateTime" type="text" class="validate">
-        <label for="dateTime">Date/Time</label>
-      </div>
-      <div class="input-field col s6">
-        <input id="dateTime1" type="text" class="validate">
-        <label for="dateTime1">Date/Time</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s6">
-        <input id="arrivalLocation" type="text" class="validate">
-        <label for="arrivalLocation">Arrival Location</label>
-      </div>
-      <div class="input-field col s6">
-        <input id="eta" type="text" class="validate">
-        <label for="eta">ETA</label>
+        <input id="departurePointP" type="text" class="validate">
+        <label for="departurePointP">Departure Point</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input id="unknown" type="text" class="validate">
-        <label for="unknown">Unknown</label>
+        <input id="travelMethodP" type="text" class="validate">
+        <label for="travelMethodP">Method Of Travel</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s6">
-        <input id="incidentLocation" type="text" class="validate">
-        <label for="incidentLocation">Incident Location</label>
+        <input id="dateTimeP" type="text" class="validate">
+        <label for="dateTimeP">Date/Time</label>
       </div>
       <div class="input-field col s6">
-        <input id="time" type="text" class="validate">
-        <label for="time">Time</label>
+        <input id="dateTime1P" type="text" class="validate">
+        <label for="dateTime1P">Date/Time</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="arrivalLocationP" type="text" class="validate">
+        <label for="arrivalLocationP">Arrival Location</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="etaP" type="text" class="validate">
+        <label for="etaP">ETA</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <input id="status" type="text" class="validate">
-        <label for="status">Status</label>
+        <input id="unknownP" type="text" class="validate">
+        <label for="unknownP">Unknown</label>
       </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="incidentLocationP" type="text" class="validate">
+        <label for="incidentLocationP">Incident Location</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="timeP" type="text" class="validate">
+        <label for="timeP">Time</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="statusP" type="text" class="validate">
+        <label for="statusP">Status</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="notesP" type="text" class="validate">
+        <label for="notesP">Notes</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+</template>
+
+<template name="team">
+    <div class="row">
+      <div class="input-field col s4">
+        <input id="agencyT" type="text" class="validate">
+        <label for="agencyT">Agency</label>
+      </div>
+      <div class="input-field col s2">
+        <input id="kindT" type="text" class="validate">
+        <label for="kindT">Kind</label>
+      </div>
+      <div class="input-field col s2">
+        <input id="typeT" type="text" class="validate">
+        <label for="typeT">Type</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="nameT" type="text" class="validate">
+        <label for="nameT">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="mobileNoT" type="text" class="validate">
+        <label for="mobileNoT">Mobile No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="callsignT" type="text" class="validate">
+        <label for="callsignT">Callsign</label>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="input-field col s12">
+    		<select>
+	          <option value="" disabled selected>Communications</option>
+	          <option value="1">Airwave</option>
+	          <option value="2">VHF</option>
+	          <option value="3">Other</option>
+	        </select>
+	    </div>
+	</div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="requestNoT" type="text" class="validate">
+        <label for="requestNoT">Request No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="checkInT" type="text" class="validate">
+        <label for="checkInT">Date/Time Check In</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="departurePointT" type="text" class="validate">
+        <label for="departurePointT">Departure Point</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="leaderNameT" type="text" class="validate">
+        <label for="leaderNameT">Leader Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="managerLiasonT" type="text" class="validate">
+        <label for="managerLiasonT">Manager/Liason</label>
+      </div>
+	</div>
+	<div class="row">
+      <div class="input-field col s6">
+        <input id="teamMember1T" type="text" class="validate">
+        <label for="teamMember1T">Team Member Name</label>
+      </div>
+	  <div class="input-field col s6">
+        <input id="teamMember2T" type="text" class="validate">
+        <label for="teamMember2T">Team Member Name</label>
+      </div>
+	</div>
+	<div class="row">
+      <div class="input-field col s6">
+        <input id="teamMember3T" type="text" class="validate">
+        <label for="teamMember3T">Team Member Name</label>
+      </div>
+	  <div class="input-field col s6">
+        <input id="teamMember4T" type="text" class="validate">
+        <label for="teamMember4T">Team Member Name</label>
+      </div>
+	</div>
+	<div class="row">
+      <div class="input-field col s6">
+        <input id="teamMember5T" type="text" class="validate">
+        <label for="teamMember5T">Team Member Name</label>
+      </div>
+	  <div class="input-field col s6">
+        <input id="teamMember6T" type="text" class="validate">
+        <label for="teamMember6T">Team Member Name</label>
+      </div>
+	</div>
+    <div class="row">
+      <div class="input-field col s12">
+		  <select>
+	         <option value="" disabled selected>Method of Travel</option>
+	         <option value="1">Own</option>
+	         <option value="2">Agency</option>
+	         <option value="3">Other</option>
+	      </select>
+	  </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s8">
+        <input id="destinationT" type="text" class="validate">
+        <label for="destinationT">Destination</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="etaT" type="text" class="validate">
+        <label for="etaT">ETA</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="notes" type="text" class="validate">
+        <label for="notes">Notes</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+</template>
+
+<template name="boat">
+    <div class="row">
+      <div class="input-field col s4">
+        <input id="agencyB" type="text" class="validate">
+        <label for="agencyB">Agency</label>
+      </div>
+      <div class="input-field col s1">
+        <input id="typeB" type="text" class="validate">
+        <label for="typeB">Type</label>
+      </div>
+      <div class="input-field col s3">
+        <input id="constructionB" type="text" class="validate">
+        <label for="constructionB">Construction</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="nameB" type="text" class="validate">
+        <label for="nameB">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s8">
+        <input id="mobileNoB" type="text" class="validate">
+        <label for="mobileNoB">Mobile No.</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="callsignB" type="text" class="validate">
+        <label for="callsignB">Callsign</label>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="input-field col s12">
+    		<select>
+	          <option value="" disabled selected>Communications</option>
+	          <option value="1">Airwave</option>
+	          <option value="2">VHF</option>
+	          <option value="3">Other</option>
+	        </select>
+	    </div>
+	</div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="requestNoB" type="text" class="validate">
+        <label for="requestNoB">Request No</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="checkInB" type="text" class="validate">
+        <label for="checkInB">Date/Time Check in</label>
+      </div>
+      <div class="input-field col s12">
+        <input id="departurePointB" type="text" class="validate">
+        <label for="departurePointB">Departure Point</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="leaderNameB" type="text" class="validate">
+        <label for="leaderNameB">Leader Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="managerLiasonB" type="text" class="validate">
+        <label for="managerLiasonB">Manager/Liason</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="boatLengthB" type="text" class="validate">
+        <label for="boatLengthB">Boat Length</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="boatDraftB" type="text" class="validate">
+        <label for="boatDraftB">Boat Draft</label>
+      </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+        <input id="engineSizeB" type="text" class="validate">
+        <label for="engineSizeB">Engine Size</label>
+      </div>
+      <div class="input-field col s6">
+       <select>
+            <option value="" disabled selected>Prop Guard</option>
+            <option value="1">Yes</option>
+         </select>
+       </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+        <input id="capacityB" type="text" class="validate">
+        <label for="capacityB">Capacity</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="loadB" type="text" class="validate">
+        <label for="loadB">Load Capacity</label>
+      </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+		 <select>
+	        <option value="" disabled selected>Night Ops</option>
+	        <option value="1">Nav Lights</option>
+			<option value="2">Search Lights</option>
+	     </select>
+	  </div>
+    <div class="input-field col s6">
+   <select>
+        <option value="" disabled selected>Slipway for Launch</option>
+        <option value="1">Yes</option>
+     </select>
+  </div>
+	</div>
+    <div class="row">
+	  <div class="input-field col s12">
+		  <select>
+	         <option value="" disabled selected>Method of Travel</option>
+	         <option value="1">Own</option>
+	         <option value="2">Agency</option>
+	         <option value="3">Other</option>
+	      </select>
+	  </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
