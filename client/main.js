@@ -17,7 +17,7 @@ Accounts.ui.config({
 });
 
 //Body helpers
-Template.body.helpers({
+Template.boards.helpers({
   onCall(){
     return OnCall.find({})
   },
@@ -89,52 +89,155 @@ Template.add.events({
 
     //FormData is the card choice e.g. 1 = team card
     if(formData == 1) {
+    	const target = event.target;
+    	const cardType = 'team';
+    	const agency = target.agencyT.value;
+    	const kind = target.kindT.value;
+    	const type = target.typeT.value;
+    	const name = target.nameT.value;
+    	const mobile_no = target.mobileNoT.value;
+    	const callsign = target.callsignT;
+    	const communications = target.communicationsT.options[communicationsT.selectedIndex].text;
+    	const request_no = target.requestNoT.value;
+    	const checkIn = target.checkInT.value;
+    	const departure_point = target.departurePointT.value;
+    	const leaderName = target.leaderNameT.value;
+    	const managerLiason = target.managerLiasonT.value;
+    	const teamMember1 = target.teamMember1T.value;
+    	const teamMember2 = target.teamMember2T.value;
+    	const teamMember3 = target.teamMember3T.value;
+    	const teamMember4 = target.teamMember4T.value;
+    	const teamMember5 = target.teamMember5T.value;
+    	const teamMember6 = target.teamMember6T.value;
+    	const travel_method = target.travelMethodT.options[travelMethodT.selectedIndex].text;
+    	const destination = target.destinationT.value;
+    	const eta = target.etaT.value;
+    	const notes = target.notesT.value;
+
+	    OnCall.insert({
+	    	cardType,
+	    	agency,
+	    	kind,
+	    	type,
+	    	name,
+	    	mobile_no,
+	    	callsign,
+	    	communications,
+	    	request_no,
+	    	checkIn,
+	    	departure_point,
+	    	leaderName,
+	    	managerLiason,
+	    	teamMember1,
+	    	teamMember2,
+	    	teamMember3,
+	    	teamMember4,
+	    	teamMember5,
+	    	teamMember6,
+	    	travel_method,
+	    	destination,
+	    	eta,
+	    	createdAt: new Date()
+	      });
     }
     else if(formData == 2){
-    const target = event.target;
-    const cardType = 'personnel';
-    const agency = target.agencyP.value;
-    const name = target.nameP.value;
-    const incident_role = target.incidentRoleP.value;
-    const mobile_no = target.mobileNoP.value;
-    const callsign = target.callsignP.value;
-    const request_no = target.requestNoP.value;
-    const checkIn = target.checkInP.value;
-    const departure_point = target.departurePointP.value;
-    const travel_method = target.travelMethodP.value;
-    const date_time = target.dateTimeP.value;
-    const date_time1 = target.dateTime1P.value;
-    const arrival_location = target.arrivalLocationP.value;
-    const eta = target.etaP.value;
-    const unknown = target.unknownP.value;
-    const incident_location = target.incidentLocationP.value;
-    const time = target.timeP.value;
-    const status = target.statusP.value;
-    const notes = target.notesP.value;
+	    const target = event.target;
+	    const cardType = 'personnel';
+	    const agency = target.agencyP.value;
+	    const name = target.nameP.value;
+	    const incident_role = target.incidentRoleP.value;
+	    const mobile_no = target.mobileNoP.value;
+	    const callsign = target.callsignP.value;
+	    const request_no = target.requestNoP.value;
+	    const checkIn = target.checkInP.value;
+	    const departure_point = target.departurePointP.value;
+	    const travel_method = target.travelMethodP.value;
+	    const date_time = target.dateTimeP.value;
+	    const date_time1 = target.dateTime1P.value;
+	    const arrival_location = target.arrivalLocationP.value;
+	    const eta = target.etaP.value;
+	    const unknown = target.unknownP.value;
+	    const incident_location = target.incidentLocationP.value;
+	    const time = target.timeP.value;
+	    const status = target.statusP.value;
+	    const notes = target.notesP.value;
 
-    OnCall.insert({
-      cardType,
-      agency,
-      name,
-      incident_role,
-      mobile_no,
-      callsign,
-      request_no,
-      checkIn,
-      departure_point,
-      travel_method,
-      date_time,
-      date_time1,
-      arrival_location,
-      eta,
-      unknown,
-      incident_location,
-      time,
-      status,
-      notes,
-      createdAt: new Date()
-      });
+	    OnCall.insert({
+	      cardType,
+	      agency,
+	      name,
+	      incident_role,
+	      mobile_no,
+	      callsign,
+	      request_no,
+	      checkIn,
+	      departure_point,
+	      travel_method,
+	      date_time,
+	      date_time1,
+	      arrival_location,
+	      eta,
+	      unknown,
+	      incident_location,
+	      time,
+	      status,
+	      notes,
+	      createdAt: new Date()
+	      });
     }
+    else if(formData == 3){
+      const target = event.target;
+  		const cardType = 'boat';
+  		const agency = target.agencyB.value;
+  		const type = target.typeB.value
+  		const construction = target.constructionB.value;
+  		const name = target.nameB.value;
+  		const mobile_no = target.mobileNoB.value;
+  		const callsign = target.callsignB.value;
+  		const communications = target.communicationsB.options[communicationsB.selectedIndex].text;
+  		const request_no = target.requestNoB.value;
+  		const checkIn = target.checkInB.value;
+  		const departure_point = target.departurePointB.value;
+  		const leader_name = target.leaderNameB.value;
+  		const manager_liason = target.managerLiasonB.value;
+  		const boat_length = target.boatLengthB.value;
+  		const boat_draft = target.boatDraftB.value;
+  		const engine_size = target.engineSizeB.value;
+  		const propGuard = target.propGuardB.options[propGuardB.selectedIndex].text;
+  		const capacity = target.capacityB.value;
+  		const load_capacity = target.loadB.value;
+  		const nightOps = target.nightOpsB.options[nightOpsB.selectedIndex].text;
+  		const slipway = target.slipwayB.options[slipwayB.selectedIndex].text;
+  		const travelMethod = target.travelMethodB.options[travelMethodB.selectedIndex].text;
+  		const notes = target.notesB.text;
+
+  		OnCall.insert({
+  			cardType,
+  			agency,
+  			type,
+  			construction,
+  			name,
+  			mobile_no,
+  			callsign,
+  			communications,
+  			request_no,
+  			checkIn,
+  			departure_point,
+  			leader_name,
+  			manager_liason,
+  			boat_length,
+  			boat_draft,
+  			engine_size,
+  			propGuard,
+  			capacity,
+  			load_capacity,
+  			nightOps,
+  			slipway,
+  			travelMethod,
+  			notes,
+  			createdAt: new Date()
+  		});
+	}
 
     $("#personnel-form").trigger('reset');
     $('.modal').modal('close');
@@ -142,7 +245,7 @@ Template.add.events({
 });
 
 
-Template.body.onRendered(function(el, e) {
+Template.boards.onRendered(function(el, e) {
   var drake = dragula([document.querySelector('#b1'), document.querySelector('#b2'),
   document.querySelector('#b3'), document.querySelector('#b4')]);
 
@@ -252,4 +355,34 @@ Template.card.helpers({
   id(){
     return this._id;
   }
+});
+
+Template.card.helpers({
+  boat: function(){
+    if(this.cardType === 'boat') {
+        return true;
+    }
+  },
+  team: function(){
+    if(this.cardType === 'team') {
+        return true;
+    }
+  },
+  personnel: function(){
+    if(this.cardType === 'personnel') {
+        return true;
+    }
+  }
+});
+
+Template.card.events({
+    "click .row" : function(event, el){
+      var x = document.getElementsByClassName(this._id)[0];
+      console.log(x);
+      if (x.style.display === "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+    }
 });
