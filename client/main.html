@@ -1,19 +1,20 @@
 <head>
   <title>T Card System</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 </head>
 
-<body>
-  <nav class="green">
+<body class="grey lighten-2">
+  <nav class="grey darken-3">
     <div class="container">
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">T Card System</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <!-- Can't add if statement, otherwise modal won't trigger-->
           {{#if currentUser}}
-            <li class="nav-item">
-                <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
-            </li>
+          <li class="nav-item">
+            <a class="waves-effect waves-light btn modal-trigger" href="#addModal">Add Card</a>
+            <a class="waves-effect waves-light btn modal-trigger" id="myBtn" onclick="myFunction()">HELP</a>
+          </li>
           {{/if}}
           <li class="nav-item">
             {{> loginButtons}}
@@ -23,25 +24,63 @@
     </div>
   </nav>
   <div class="container">
-    <h1>"Cards"</h1>
+    <h1>Cards</h1>
     {{#if currentUser}}
-      <ul class="collection">
-        {{#each notes}}
-          {{> note}}
-        {{/each}}
-      </ul>
+    <ul class="collection">
+    </ul>
     {{else}}
-      <p>Please login to see "cards".</p>
+    <p>Please login to see the cards.</p>
     {{/if}}
   </div>
   {{> add}}
-  <div class="container">
+  {{#if currentUser}}
+    {{> boards}}
+  {{else}}
+  {{/if}}
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h1 class="help">Adding a card</h1>
+      <p class="helpText">To Add a card, click the “Add Card” button at the top of the page. This will cause a pop-up to appear, prompting the user to add in required information. Once the fields have been filled in, simply click “Submit” at the bottom of the page and the
+        new card will appear on the board.</p>
+      <h2 class="help">Deleting a card</h2>
+      <p class="helpText"> To delete a card, click the “x” located on the bottom right of each card. </p>
+      <h3 class="help">Dragging a card</h3>
+      <p lass="helpText"> To drag a card, hover the mouse over the desired card you want to move. Click on the card and simply drag it to the desired column. </p>
+      <h4 class="help">Updating Cards</h4>
+      <p class="helpText">To Update a card, click the pen symbol located on the top right of the card.</p>
+      <h5 class="help">Program Features</h5>
+      <p class="helpText">Text about Features.</p>
+      <h6 class="help">Program Dependancies</h6>
+      <p class="helpText">Text about Dependancies.</p>
+    </div>
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks the button, open the modal
+      function myFunction() {
+        modal.style.display = "block";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+    </script>
+
   </div>
 </body>
 
 <template name="note">
   <li class="collection-item">
-    {{text}} <strong>Added by {{username}}</strong>
+    {{text}} <strong> Added by {{username}}</strong>
     <a href="#" class="delete-note secondary-content">
       <i class="material-icons">close</i>
     </a>
@@ -51,21 +90,705 @@
 <template name="add">
   <div id="addModal" class="modal">
     <div class="modal-content">
-      <h3>Add Card</h3>
-      <form class="add-form">
-        <input type="text" name="text" placeholder="Add note...">
-      </form>
+      <form id="personnel-form" class="add-form">
+        <div class="row">
+          <div class="input-field col s4">
+            <select id="cardType">
+              <option value="1">Team</option>
+              <option value="2" selected>Personnel</option>
+              <option value="3">Boat</option>
+            </select>
+            <label>T-Card Type</label>
+          </div>
+        </div>
+        {{#if isTeam}}
+          {{> team}}
+        {{/if}}
+        {{#if isPersonnel}}
+          {{> personnel}}
+        {{/if}}
+          {{#if isBoat}}
+          {{> boat}}
+        {{/if}}
+    </form>
     </div>
   </div>
 </template>
 
-<template name="card">
+<template name="personnel">
+    <div class="row">
+      <div class="input-field col s4">
+        <input id="agencyP" type="text" class="validate">
+        <label for="agencyP">Agency</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="nameP" type="text" class="validate">
+        <label for="nameP">Name</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="incidentRoleP" type="text" class="validate">
+        <label for="incidentRoleP">Incident Role</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="mobileNoP" type="text" class="validate">
+        <label for="mobileNoP">Mobile No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="callsignP" type="text" class="validate">
+        <label for="callsignP">Callsign</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="requestNoP" type="text" class="validate">
+        <label for="requestNoP">Request No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="checkInP" type="text" class="validate">
+        <label for="checkInP">Date/Time Check In</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="departurePointP" type="text" class="validate">
+        <label for="departurePointP">Departure Point</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="travelMethodP" type="text" class="validate">
+        <label for="travelMethodP">Method Of Travel</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="dateTimeP" type="text" class="validate">
+        <label for="dateTimeP">Date/Time</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="dateTime1P" type="text" class="validate">
+        <label for="dateTime1P">Date/Time</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="arrivalLocationP" type="text" class="validate">
+        <label for="arrivalLocationP">Arrival Location</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="etaP" type="text" class="validate">
+        <label for="etaP">ETA</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="unknownP" type="text" class="validate">
+        <label for="unknownP">Unknown</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="incidentLocationP" type="text" class="validate">
+        <label for="incidentLocationP">Incident Location</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="timeP" type="text" class="validate">
+        <label for="timeP">Time</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="statusP" type="text" class="validate">
+        <label for="statusP">Status</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="notesP" type="text" class="validate">
+        <label for="notesP">Notes</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+</template>
+
+<template name="team">
+    <div class="row">
+      <div class="input-field col s4">
+        <input id="agencyT" type="text" class="validate">
+        <label for="agencyT">Agency</label>
+      </div>
+      <div class="input-field col s2">
+        <input id="kindT" type="text" class="validate">
+        <label for="kindT">Kind</label>
+      </div>
+      <div class="input-field col s2">
+        <input id="typeT" type="text" class="validate">
+        <label for="typeT">Type</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="nameT" type="text" class="validate">
+        <label for="nameT">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="mobileNoT" type="text" class="validate">
+        <label for="mobileNoT">Mobile No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="callsignT" type="text" class="validate">
+        <label for="callsignT">Callsign</label>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="input-field col s12">
+    		<select id="communicationsT">
+	          <option value="" disabled selected>Communications</option>
+	          <option value="1">Airwave</option>
+	          <option value="2">VHF</option>
+	          <option value="3">Other</option>
+	        </select>
+	    </div>
+	</div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="requestNoT" type="text" class="validate">
+        <label for="requestNoT">Request No.</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="checkInT" type="text" class="validate">
+        <label for="checkInT">Date/Time Check In</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="departurePointT" type="text" class="validate">
+        <label for="departurePointT">Departure Point</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="leaderNameT" type="text" class="validate">
+        <label for="leaderNameT">Leader Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="managerLiasonT" type="text" class="validate">
+        <label for="managerLiasonT">Manager/Liason</label>
+      </div>
+	</div>
   <div class="row">
-    <div class="col s1 m2">
-      <div class="card blue-grey darken-1">
+    <div class="input-field col s12">
+    <select id="travelMethodT">
+         <option value="" disabled selected>Method of Travel</option>
+         <option value="1">Own</option>
+         <option value="2">Agency</option>
+         <option value="3">Other</option>
+      </select>
+  </div>
+  </div>
+    <div class="row">
+      <div class="input-field col s12">
+		  <select multiple id="teamMember1T" >
+	         <option value="" disabled selected>Member Name</option>
+           {{# each members}}
+              <option value={{name}}>{{name}}</option>
+           {{/each}}
+	      </select>
+	  </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s8">
+        <input id="destinationT" type="text" class="validate">
+        <label for="destinationT">Destination</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="etaT" type="text" class="validate">
+        <label for="etaT">ETA</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="notesT" type="text" class="validate">
+        <label for="notesT">Notes</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+</template>
+
+<template name="boat">
+    <div class="row">
+      <div class="input-field col s4">
+        <input id="agencyB" type="text" class="validate">
+        <label for="agencyB">Agency</label>
+      </div>
+      <div class="input-field col s1">
+        <input id="typeB" type="text" class="validate">
+        <label for="typeB">Type</label>
+      </div>
+      <div class="input-field col s3">
+        <input id="constructionB" type="text" class="validate">
+        <label for="constructionB">Construction</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="nameB" type="text" class="validate">
+        <label for="nameB">Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s8">
+        <input id="mobileNoB" type="text" class="validate">
+        <label for="mobileNoB">Mobile No.</label>
+      </div>
+      <div class="input-field col s4">
+        <input id="callsignB" type="text" class="validate">
+        <label for="callsignB">Callsign</label>
+      </div>
+    </div>
+    <div class="row">
+    	<div class="input-field col s12">
+    		<select id="communicationsB">
+	          <option value="" disabled selected>Communications</option>
+	          <option value="1">Airwave</option>
+	          <option value="2">VHF</option>
+	          <option value="3">Other</option>
+	        </select>
+	    </div>
+	</div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="requestNoB" type="text" class="validate">
+        <label for="requestNoB">Request No</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="checkInB" type="text" class="validate">
+        <label for="checkInB">Date/Time Check in</label>
+      </div>
+      <div class="input-field col s12">
+        <input id="departurePointB" type="text" class="validate">
+        <label for="departurePointB">Departure Point</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="leaderNameB" type="text" class="validate">
+        <label for="leaderNameB">Leader Name</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="managerLiasonB" type="text" class="validate">
+        <label for="managerLiasonB">Manager/Liason</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="boatLengthB" type="text" class="validate">
+        <label for="boatLengthB">Boat Length</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="boatDraftB" type="text" class="validate">
+        <label for="boatDraftB">Boat Draft</label>
+      </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+        <input id="engineSizeB" type="text" class="validate">
+        <label for="engineSizeB">Engine Size</label>
+      </div>
+      <div class="input-field col s6">
+       <select id="propGuardB">
+            <option value="" disabled selected>Prop Guard</option>
+            <option value="1">Yes</option>
+            <option value="2">No</option>
+         </select>
+       </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+        <input id="capacityB" type="text" class="validate">
+        <label for="capacityB">Capacity</label>
+      </div>
+      <div class="input-field col s6">
+        <input id="loadB" type="text" class="validate">
+        <label for="loadB">Load Capacity</label>
+      </div>
+	</div>
+	<div class="row">
+	  <div class="input-field col s6">
+		 <select id="nightOpsB">
+	        <option value="" disabled selected>Night Ops</option>
+	        <option value="1">Nav Lights</option>
+			<option value="2">Search Lights</option>
+	     </select>
+	  </div>
+    <div class="input-field col s6">
+   		<select id="slipwayB">
+	        <option value="" disabled selected>Slipway for Launch</option>
+	        <option value="1">Yes</option>
+	        <option value="2">No</option>
+     	</select>
+  </div>
+	</div>
+    <div class="row">
+	  <div class="input-field col s12">
+		  <select id="travelMethodB">
+	         <option value="" disabled selected>Method of Travel</option>
+	         <option value="1">Own</option>
+	         <option value="2">Agency</option>
+	         <option value="3">Other</option>
+	      </select>
+	  </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="notesB" type="text" class="validate">
+        <label for="notesB">Notes</label>
+      </div>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+      <i class="material-icons right">send</i>
+    </button>
+</template>
+
+<template name="card">
+  <div class="row" id={{id}}>
+    <div class="col s1 m12">
+      <div class="card grey darken-4">
         <div class="card-content white-text">
-          <span class="card-title">T Card</span>
-          <p>This what a t-card could look like.</p>
+          <span class="card-title">{{name}}</span>
+          <div class="{{id}}" style="display : none;" >
+          {{#if boat}}
+            {{> boatInfo}}
+          {{/if}}
+          {{#if personnel}}
+            {{> personnelInfo}}
+          {{/if}}
+          {{#if team}}
+            {{> teamInfo}}
+          {{/if}}
+        </div>
+          <a href="#" class="delete-card secondary-content">
+          <i class="material-icons">close</i>
+          </a>
+        </div>
+        <div class ="cardColour">
+      </div>
+    </div>
+  </div>
+  </div>
+</template>
+
+<template name="personnelInfo">
+  <div>
+    <p class="cardLeft">Name:</p>
+    <p class="cardRight">{{name}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Agency:</p>
+    <p class="cardRight">{{agency}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Callsign:</p>
+    <p class="cardRight">{{callsign}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Status:</p>
+    <p class="cardRight">{{status}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">TravelMethod:</p>
+    <p class="cardRight">{{travel_method}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Time:</p>
+    <p class="cardRight">{{time}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Unknown:</p>
+    <p class="cardRight">{{unknown}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">IncidentRole:</p>
+    <p class="cardRight">{{incident_role}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">IncidentLocation:</p>
+    <p class="cardRight">{{incident_location}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">ETA:</p>
+    <p class="cardRight">{{eta}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Date/Time:</p>
+    <p class="cardRight">{{date_time}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Date/Time:</p>
+    <p class="cardRight">{{date_time1}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Arrival Location:</p>
+    <p class="cardRight">{{arrival_location}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Travel Method:</p>
+    <p class="cardRight">{{travel_method}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Departure Point:</p>
+    <p class="cardRight">{{departure_point}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Request No:</p>
+    <p class="cardRight">{{request_no}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Mobile No:</p>
+    <p class="cardRight">{{mobile_no}}</p>
+    <div style="clear: both;"></div>
+  </div>
+  <div>
+    <p class="cardLeft">Notes:</p>
+    <p class="cardRight">{{notes}}</p>
+    <div style="clear: both;"></div>
+  </div>
+</template>
+
+<template name="boatInfo">
+  <div>
+      <p class="cardLeft">Agency:</p>
+      <p class="cardRight">{{agency}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Type:</p>
+      <p class="cardRight">{{type}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Construction:</p>
+      <p class="cardRight">{{construction}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Name:</p>
+      <p class="cardRight">{{name}}</p>
+      <div style="clear: both;"></div>
+  </div>
+   <div>
+      <p class="cardLeft">Mobile No:</p>
+      <p class="cardRight">{{mobile_no}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Callsign</p>
+      <p class="cardRight">{{callsign}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Communications:</p>
+      <p class="cardRight">{{communications}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Request No:</p>
+      <p class="cardRight">{{request_no}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Check In:</p>
+      <p class="cardRight">{{checkIn}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Departure Point:</p>
+      <p class="cardRight">{{departure_point}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Leader Name:</p>
+      <p class="cardRight">{{leader_name}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Manager Liason:</p>
+      <p class="cardRight">{{manager_liason}}</p>
+      <div style="clear: both;"></div>
+  </div>
+
+  <div>
+      <p class="cardLeft">Boat Length:</p>
+      <p class="cardRight">{{boat_length}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Boat Draft:</p>
+      <p class="cardRight">{{boat_draft}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Engine Size:</p>
+      <p class="cardRight">{{engine_size}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Prop Guard:</p>
+      <p class="cardRight">{{propGuard}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Capacity:</p>
+      <p class="cardRight">{{capacity}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Load Capacity:</p>
+      <p class="cardRight">{{load_capacity}}</p>
+      <div style="clear: both;"></div>
+  </div>
+   <div>
+      <p class="cardLeft">Night Ops:</p>
+      <p class="cardRight">{{nightOps}}</p>
+      <div style="clear: both;"></div>
+  </div>
+   <div>
+      <p class="cardLeft">Slipway:</p>
+      <p class="cardRight">{{slipway}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Travel Method:</p>
+      <p class="cardRight">{{travelMethod}}</p>
+      <div style="clear: both;"></div>
+  </div>
+  <div>
+      <p class="cardLeft">Notes:</p>
+      <p class="cardRight">{{notes}}</p>
+      <div style="clear: both;"></div>
+  </div>
+</template>
+
+<template name="teamInfo">
+	<div style="clear: both;">
+    <p class="cardLeft">Agency: </p>
+    <p class="cardRight">{{agency}}</p>
+	</div>
+	<div style="clear: both;">
+    <p class="cardLeft">Kind: </p>
+    <p class="cardRight">{{kind}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Type: </p>
+	  <p class="cardRight">{{type}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Name: </p>
+	  <p class="cardRight">{{name}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Mobile No: </p>
+	  <p class="cardRight">{{mobile_no}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Callsign: </p>
+	  <p class="cardRight">{{callsign}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Communications: </p>
+	  <p class="cardRight">{{communications}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Request No: </p>
+	  <p class="cardRight">{{request_no}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Check In: </p>
+	  <p class="cardRight">{{checkIn}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Departure Point: </p>
+	 <p class="cardRight">{{departure_point}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Leader Name: </p>
+	  <p class="cardRight">{{leaderName}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Manager Liason: </p>
+	  <p class="cardRight">{{managerLiason}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Team Members: </p>
+	  <p class="cardRight">{{teamMember1}}, {{teamMember2}}, {{teamMember3}}, {{teamMember4}}, {{teamMember5}}, {{teamMember6}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Travel Method: </p>
+	  <p class="cardRight">{{travel_method}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Destination: </p>
+	   <p class="cardRight">{{destination}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">ETA: </p>
+	   <p class="cardRight">{{eta}}</p>
+	</div>
+    <div style="clear: both;">
+    <p class="cardLeft">Notes: </p>
+	  <p class="cardRight">{{notes}}</p>
+	</div>
+</template>
+
+<template name="boards">
+  <div class="container">
+    <div id="boards">
+      <div class="board" id="board1">
+        <header>On-Call</header>
+        <div class="cards" id="b1">
+          {{# each onCall}} {{> card}} {{/each}}
+        </div>
+      </div>
+      <div class="board" id="board2">
+        <header>Deployed</header>
+        <div class="cards" id="b2">
+          {{# each deployed}} {{> card}} {{/each}}
+        </div>
+      </div>
+      <div class="board" id="board3">
+        <header>Pending</header>
+        <div class="cards" id="b3">
+          {{# each pending}} {{> card}} {{/each}}
+        </div>
+      </div>
+      <div class="board" id="board4">
+        <header>Operational</header>
+        <div class="cards" id="b4">
+          {{# each operational}} {{> card}} {{/each}}
         </div>
       </div>
     </div>

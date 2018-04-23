@@ -1,0 +1,28 @@
+# Changelog
+
+## [Unreleased]
+
+## [0.0.2] - 2018-04-22
+### Added
+- Ability to change form depending on card
+- Added forms for all cards
+- All board moving and deleting now works
+- User will now be prompted when deleting a card
+- Added card colours (don't change on card type)
+- Added card opening
+
+## [0.0.1] - 2018-03-26
+### Added
+- Forms for t cards.
+- MongoDB integration with forms (messy and temporary).
+- Cards can be added to "On Call" board (and nothing else as of now).
+- Cards can be deleted.
+- Names are added to cards.
+- Cards are draggable between each board.
+- Materialize should now be included when cloning the repo.
+
+### Changed
+
+### Bugs
+- Cards cannot be deleted on other boards.
+- Form is incredibly laggy (probably due to the amount of input fields on one form).
