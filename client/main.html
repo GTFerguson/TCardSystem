@@ -94,8 +94,8 @@
         <div class="row">
           <div class="input-field col s4">
             <select id="cardType">
-              <option value="1" selected="selected">Team</option>
-              <option value="2">Personnel</option>
+              <option value="1">Team</option>
+              <option value="2" selected>Personnel</option>
               <option value="3">Boat</option>
             </select>
             <label>T-Card Type</label>
@@ -282,43 +282,23 @@
         <label for="managerLiasonT">Manager/Liason</label>
       </div>
 	</div>
-	<div class="row">
-      <div class="input-field col s6">
-        <input id="teamMember1T" type="text" class="validate">
-        <label for="teamMember1T">Team Member Name</label>
-      </div>
-	  <div class="input-field col s6">
-        <input id="teamMember2T" type="text" class="validate">
-        <label for="teamMember2T">Team Member Name</label>
-      </div>
-	</div>
-	<div class="row">
-      <div class="input-field col s6">
-        <input id="teamMember3T" type="text" class="validate">
-        <label for="teamMember3T">Team Member Name</label>
-      </div>
-	  <div class="input-field col s6">
-        <input id="teamMember4T" type="text" class="validate">
-        <label for="teamMember4T">Team Member Name</label>
-      </div>
-	</div>
-	<div class="row">
-      <div class="input-field col s6">
-        <input id="teamMember5T" type="text" class="validate">
-        <label for="teamMember5T">Team Member Name</label>
-      </div>
-	  <div class="input-field col s6">
-        <input id="teamMember6T" type="text" class="validate">
-        <label for="teamMember6T">Team Member Name</label>
-      </div>
-	</div>
+  <div class="row">
+    <div class="input-field col s12">
+    <select id="travelMethodT">
+         <option value="" disabled selected>Method of Travel</option>
+         <option value="1">Own</option>
+         <option value="2">Agency</option>
+         <option value="3">Other</option>
+      </select>
+  </div>
+  </div>
     <div class="row">
       <div class="input-field col s12">
-		  <select id="travelMethodT">
-	         <option value="" disabled selected>Method of Travel</option>
-	         <option value="1">Own</option>
-	         <option value="2">Agency</option>
-	         <option value="3">Other</option>
+		  <select multiple id="teamMember1T" >
+	         <option value="" disabled selected>Member Name</option>
+           {{# each members}}
+              <option value={{name}}>{{name}}</option>
+           {{/each}}
 	      </select>
 	  </div>
     </div>
@@ -660,7 +640,7 @@
       <p class="cardRight">{{manager_liason}}</p>
       <div style="clear: both;"></div>
   </div>
-  
+
   <div>
       <p class="cardLeft">Boat Length:</p>
       <p class="cardRight">{{boat_length}}</p>

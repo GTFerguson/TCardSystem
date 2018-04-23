@@ -4,12 +4,13 @@ import { OnCall } from '../lib/collections.js';
 import { Deployed } from '../lib/collections.js';
 import { Pending } from '../lib/collections.js';
 import { Operational } from '../lib/collections.js';
+import { Members } from '../lib/collections.js';
 import { Accounts } from 'meteor/accounts-base';
 import dragula from 'dragula';
 import './main.html';
 
-Session.set('isTeam', true);
-var formData = 1;
+Session.set('isPersonnel', true);
+var formData = 2;
 
 //Accounts config
 Accounts.ui.config({
@@ -29,6 +30,12 @@ Template.boards.helpers({
   },
   operational(){
     return Operational.find({})
+  }
+});
+
+Template.team.helpers({
+  members(){
+    return Members.find({})
   }
 });
 
@@ -103,12 +110,8 @@ Template.add.events({
     	const departure_point = target.departurePointT.value;
     	const leaderName = target.leaderNameT.value;
     	const managerLiason = target.managerLiasonT.value;
-    	const teamMember1 = target.teamMember1T.value;
-    	const teamMember2 = target.teamMember2T.value;
-    	const teamMember3 = target.teamMember3T.value;
-    	const teamMember4 = target.teamMember4T.value;
-    	const teamMember5 = target.teamMember5T.value;
-    	const teamMember6 = target.teamMember6T.value;
+    	const teamMember1 = $('#teamMember1T').val() || [];
+      console.log($('#teamMember1T').val() || []);
     	const travel_method = target.travelMethodT.options[travelMethodT.selectedIndex].text;
     	const destination = target.destinationT.value;
     	const eta = target.etaT.value;
@@ -129,11 +132,6 @@ Template.add.events({
 	    	leaderName,
 	    	managerLiason,
 	    	teamMember1,
-	    	teamMember2,
-	    	teamMember3,
-	    	teamMember4,
-	    	teamMember5,
-	    	teamMember6,
 	    	travel_method,
 	    	destination,
 	    	eta,
@@ -163,8 +161,8 @@ Template.add.events({
 	    const status = target.statusP.value;
 	    const notes = target.notesP.value;
 
-	    OnCall.insert({
-	      cardType,
+      var myDoc = {
+        cardType,
 	      agency,
 	      name,
 	      incident_role,
@@ -184,10 +182,20 @@ Template.add.events({
 	      status,
 	      notes,
 	      createdAt: new Date()
-	      });
+      }
+
+	    OnCall.insert(myDoc, function(err, docsInserted){
+        if (err) return;
+        var objectId = docsInserted;
+
+        OnCall.find({ _id: objectId}).forEach(
+          function(doc){
+            Members.insert(doc);
+          });
+      });
     }
     else if(formData == 3){
-      	const target = event.target;
+      const target = event.target;
   		const cardType = 'boat';
   		const agency = target.agencyB.value;
   		const type = target.typeB.value
@@ -348,6 +356,7 @@ $(document).ready(function(){
       Deployed.remove(this._id);
       Pending.remove(this._id);
       Operational.remove(this._id);
+      Members.remove(this._id);
   	  }
     }
   });
@@ -379,7 +388,6 @@ Template.card.helpers({
 Template.card.events({
     "click .row" : function(event, el){
       var x = document.getElementsByClassName(this._id)[0];
-      console.log(x);
       if (x.style.display === "none") {
         x.style.display = "block";
       } else {
