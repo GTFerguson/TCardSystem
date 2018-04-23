@@ -56,6 +56,7 @@
   float: left;
   width: 100%;
   padding: 4px 8px;
+  min-height: 40px;
 }
 
 .cardtitle {
@@ -99,24 +100,34 @@
 }
 
 .cardColour{
-     height:10px;
-     width:100%;
+     height: 10px;
+     width: 100%;
      background-color: blue;
 }
 
-.cardLeft{
-    float:left;
+.cardLeft {
+    float: left;
 }
 
-.cardRight{
-    float:right;
+.cardRight {
+    float: right;
 }
 
-.help{
-     font-size:18px;
-     font-weight:bold;
+.help {
+     font-size: 18px;
+     font-weight: bold;
 }
 
-#modalclosing{
+#modalclosing {
 	cursor: pointer;
+}
+
+#closebutton {
+	position: absolute;
+	top: 5px;
+    right: 5px;
+}
+
+#login-buttons-open-change-password {
+	margin-top: 10px;
 }
